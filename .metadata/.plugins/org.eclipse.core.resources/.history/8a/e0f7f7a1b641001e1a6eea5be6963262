@@ -1,0 +1,22 @@
+package com.helper;
+
+public class SmsUrlGenerator {
+    public static void main(String[] args) {
+        String phoneNumber = "1234567890"; // Your phone number
+        String message = "Hello, World!";  // Your message (optional)
+
+        String smsUrl = generateSmsUrl(phoneNumber, message);
+        System.out.println(smsUrl);
+    }
+
+    public static String generateSmsUrl(String phoneNumber, String message) {
+        String encodedMessage = "";
+        try {
+            encodedMessage = java.net.URLEncoder.encode(message, "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return "sms:" + phoneNumber + "?body=" + encodedMessage;
+    }
+}

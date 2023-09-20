@@ -1,0 +1,7 @@
+package com.helper;
+
+public class UserModel {
+	String uuserid, ngo, name, phoneno, email, address, pancardno, username,
+			password, roleid;
+
+}

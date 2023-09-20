@@ -1,0 +1,264 @@
+<%@page import="com.helper.UserModel"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<%@include file="../tiles/inc.jsp"%>
+</head>
+<body>
+
+	<%
+		UserModel um = null;
+		String role = "", name = "", uid = "";
+		boolean isUser = false;
+		boolean isAdmin = false;
+		boolean isNGO = false;
+		if (session.getAttribute("USER_MODEL") != null) {
+			um = (UserModel) session.getAttribute("USER_MODEL");
+			if (um.getRoleid().equalsIgnoreCase("2")) { // user
+				role = "User";
+				uid = um.getUserid();
+				isUser = true;
+			} else if (um.getRoleid().equalsIgnoreCase("1")) {
+				role = "NGO";
+				uid = um.getUserid();
+				isNGO = true;
+			} else if (um.getRoleid().equalsIgnoreCase("3")) {
+				role = "Administrator";
+				uid = um.getUserid();
+				isAdmin = true;
+			}
+
+		}
+	%>
+	<div class="slider_area ">
+		<div
+			class="single_slider d-flex align-items-center justify-content-center slider_bg_1">
+			<div class="container">
+				<div class="row align-items-center justify-content-center">
+					<div class="col-xl-7 col-md-7">
+						<div class="slider_info">
+
+							<h3 class="text-dark">Cradle of Life</h3>
+							<h4 class="text-info">"It's not just about funding. It's
+								about belief, momentum, and shared dreams."</h4>
+
+							<a href="#form_login"
+								class="login popup-with-form genric-btn success circle ">Let's
+								Log In</a>
+
+						</div>
+					</div>
+
+					<!-- Sign in-->
+					<form id="form_login" class="white-popup-block mfp-hide"
+						action="javascript:fnSubmit();">
+						<div class="popup_box ">
+							<div class="popup_inner">
+								<div class="logo text-center">
+									<a href="#"> <img
+										src="<%=request.getContextPath()%>/theme/img/logo.png" alt="">
+									</a>
+								</div>
+								<h3>Sign in</h3>
+
+								<div class="row">
+									<div class="col-xl-12 col-md-12">
+										<input type="text" name="username" id="username"
+											placeholder="User Name">
+									</div>
+									<div class="col-xl-12 col-md-12">
+										<input type="password" name="password" id="password"
+											placeholder="Password">
+									</div>
+									<div class="col-xl-12">
+										<button type="submit" class="boxed_btn_orange">Sign
+											in</button>
+									</div>
+								</div>
+
+								<p class="dont-hav-acc">
+									Not Register? <a class="dont-hav-acc" href="#reg_form">Sign
+										Up</a>
+								</p>
+							</div>
+						</div>
+					</form>
+					<!-- form itself end -->
+
+					<!--Registration form -->
+					<form id="reg_form" class="white-popup-block mfp-hide"
+						action="javascript:fnReg()";>
+						<div class="popup_box ">
+							<div class="popup_inner">
+								<!-- 								<div class="logo text-center"> -->
+								<!-- 									<a href="#"> <img -->
+								<%-- 										src="<%=request.getContextPath()%>/theme/img/logo.png" alt=""> --%>
+								<!-- 									</a> -->
+								<!-- 								</div> -->
+								<h3>Registration</h3>
+								<!-- ngo, phoneno, email, address, pancardno, username, password, roleid -->
+								<div class="row">
+									<div class="col-xl-12 col-md-12	">
+										<label for="roleSelect">Select Role:</label> <select
+											id="roleid" name="roleid" onchange="fnData();">
+											<option value="1" selected>NGO</option>
+											<option value="2">Donator</option>
+											<option value="3">Admin</option>
+										</select>
+
+									</div>
+									<div id="NGOForm" style="display: none;">
+										<div class="col-xl-6 col-md-6">
+											<input type="text" name="ngo" id="ngo"
+												placeholder="Enter NGO Name">
+										</div>
+										
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="text" name="phoneno" id="phoneno"
+											pattern="[0-9]{10}" title="Accepted 10 Digit Only"
+											placeholder="Mobile Number" required="required">
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="email" name="email" id="email"
+											placeholder="Enter Email">
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="text" name="address" id="address"
+											placeholder="Enter Address">
+									</div>
+									<div id="AdminForm" style="display: none;">
+										<div class="col-xl-6 col-md-6">
+											<input type="text" name="fname" id="fname"
+												placeholder="Enter First Name">
+										</div>
+										<div class="col-xl-6 col-md-6">
+											<input type="text" name="lname" id="lname"
+												placeholder="Enter Last Name">
+										</div>
+										<div class="col-xl-6 col-md-6">
+											<input type="text" name="pancard" id="pancard"
+												pattern="^[A-Z]{5}\d{4}[A-Z]{1}$"
+												title="Accepted 1o Digit Only"
+												placeholder="Enter PAN card No.">
+										</div>
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="text" name="username" id="username"
+											placeholder="Enter Username">
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="password" name="password" id="password"
+											placeholder="Password">
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<input type="Password" name="cpassword" id="cpassword"
+											placeholder="Confirm password"> <span
+											class="font-weight-bold text-center" id='message'></span>
+									</div>
+
+
+
+
+									<div class="col-xl-12">
+										<button type="submit" class="boxed_btn_orange">Sign
+											Up</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</form>
+					<!-- form itself end -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<%@include file="../tiles/footer_inc.jsp"%>
+</body>
+<script type="text/javascript">
+$('#userpass, #cpassword').on('keyup', function () {
+	  if ($('#userpass').val() == $('#cpassword').val()) {
+	    $('#message').html('Matching').css('color', 'cyan');
+	  } else 
+	    $('#message').html('Not Matching').css('color', 'red');
+	});
+	</script>
+<script type="text/javascript">
+function fnData(){
+	var a = document.getElementById("roleid");
+	var id = a.options[a.selectedIndex].value;
+	
+	if(id==1){
+		
+		document.getElementById("NGOForm").style = "display:block;";
+// 		document.getElementById("UserForm").style = "display:none;";
+		document.getElementById("AdminForm").style = "display:none;";
+		
+		
+	}else if(id==2){
+		
+		document.getElementById("NGOForm").style = "display:none;";
+//		document.getElementById("UserForm").style = "display:block;";
+		document.getElementById("AdminForm").style = "display:none;";
+	
+		
+	}else if (id==3){
+		
+		document.getElementById("NGOForm").style = "display:none;";
+//		document.getElementById("UserForm").style = "display:none;";
+		document.getElementById("AdminForm").style = "display:block;";
+	
+		
+	}else{
+		
+		document.getElementById("NGOForm").style = "display:none;";
+		document.getElementById("UserForm").style = "display:none;";
+		document.getElementById("AdminForm").style = "display:none;";
+		
+	}
+}
+
+function fnSubmit(){	
+	var str = $("#form_login" ).serialize();
+	//alert(str);
+	$.post("<%=request.getContextPath()%>/tiles/ajax.jsp?methodId=checkLogin",str, function(data) {
+		
+		                    data = $.trim(data);
+								if (data==1) {	
+<%-- 									if(<%=um.getRoleid()%>=="1"){ --%>
+                               window.location.href = "<%=request.getContextPath()%>/pages/index.jsp";    
+<%-- 									}if(<%=um.getRoleid()%>=="2"){ --%>
+<%-- 										WINDOW.LOCATION.HREF="<%=REQUEST.GETCONTEXTPATH()%>/PAGES/ADDSTATION.JSP";     --%>
+								//	}
+								     
+									
+							}else {
+								alert("Please Enter Valid Credentials");
+							}
+							$('#form_login')[0].reset();
+						});
+}
+
+
+	//registration form
+	function fnReg(){
+	var str = $("#reg_form").serialize();
+// 	alert(str);
+	$.post("<%=request.getContextPath()%>/tiles/ajax.jsp?methodId=registerNewUser",
+						str, function(data) {
+							data = $.trim(data);
+							if (data==1) {
+								
+								window.location.href="<%=request.getContextPath()%>/pages/login.jsp";
+							} else {
+								alert("Error");
+							}
+							$('#reg_form')[0].reset();
+						});
+	}
+</script>
+</html>
